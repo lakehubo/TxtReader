@@ -6,10 +6,9 @@ import java.io.IOException
 
 
 class TextFileReader {
-
-    private var location = ""
-    private lateinit var fileIns: FileInputStream
-    private lateinit var file: File
+    private var location: String
+    private val fileIns: FileInputStream
+    private val file: File
     var offset = 0
     val DIR_INFO = 0
     val RD_INFO = 1
@@ -20,19 +19,8 @@ class TextFileReader {
     constructor(s: String) {
         location = s
         offset = 0
-        open()
-    }
-
-    /**
-     * 打开文件
-     */
-    fun open() {
-        try {
-            file = File(location)
-            fileIns = FileInputStream(file)
-        } catch (e: Exception) {
-            println("open file error")
-        }
+        file = File(location)
+        fileIns = file.inputStream()
     }
 
     /**
@@ -50,7 +38,7 @@ class TextFileReader {
         if (BUFFER > len) {//一次性读
             try {
                 fileIns.read(abyte0)
-                offset += len;
+                offset += len
             } catch (e: IOException) {
                 return null
             }
@@ -92,7 +80,7 @@ class TextFileReader {
         offset += len
         if (len < 0) {
             close()
-            open()
+
             fastSkip(offset)
             return
         }
